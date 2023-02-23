@@ -1,74 +1,73 @@
-# Function to add two numbers
 def add(num1, num2):
+    """
+    Function to add two numbers
+    """
     return num1 + num2
 
-# Function to subtract two numbers
+
 def subtract(num1, num2):
+    """
+    Function to subtract two numbers
+    """
     return num1 - num2
 
-# Function to multiply two numbers
+
 def multiply(num1, num2):
+    """
+    Function to multiply two numbers
+    """
     return num1 * num2
 
-# Function to divide two numbers
+
 def divide(num1, num2):
+    """
+    Function to divide two numbers
+    """
     if num2 == 0:
+        # Division by zero error handling
         return "Error: Division by zero"
     return num1 / num2
 
-# Function to check if the user's choice of operation is valid
-def is_valid_choice(choice):
-    return choice in ["1", "2", "3", "4"]
 
-# Function to check if the user's input is a valid number
-def is_valid_number(num):
-    try:
-        float(num)
-        return True
-    except ValueError:
-        return False
-
-# Function to format a floating point number with a specified number of decimal places
-def format_float(num, num_decimals):
-    return f"{num:.{num_decimals}f}"
-
-# Main function that drives the calculator program
-def calculator():
+def get_valid_number(prompt):
+    """
+    Function to get a valid number input from the user
+    """
     while True:
-        # Display the list of operations
-        print("Select operation:")
+        try:
+            num = float(input(prompt))
+            return num
+        except ValueError:
+            # Check for valid inputs - only numbers allowed
+            print("Error: Invalid input. Please enter a valid number.")
+
+
+def calculator():
+    """
+    Function to present a simple calculator interface to the user
+    """
+    while True:
+        print("\nSelect operation:")
         print("1. Add")
         print("2. Subtract")
         print("3. Multiply")
         print("4. Divide")
         print("5. Exit")
 
-        # Get the user's choice of operation
         choice = input("Enter choice (1/2/3/4/5): ")
-
-        # Check if the user wants to exit
         if choice == "5":
+            # Exit the program if user chooses 5
             break
 
-        # Check if the user's choice of operation is valid
-        if not is_valid_choice(choice):
+        # Check whether the choice is valid
+        if choice not in ["1", "2", "3", "4"]:
             print("Error: Invalid input. Please enter a valid choice.")
             continue
 
-        # Get the user's input for the numbers
-        num1 = input("Enter first number: ")
-        num2 = input("Enter second number: ")
+        num1 = get_valid_number("Enter first number: ")
+        num2 = get_valid_number("Enter second number: ")
 
-        # Check if the user's input is valid
-        if not is_valid_number(num1) or not is_valid_number(num2):
-            print("Error: Invalid input. Please enter a valid number.")
-            continue
-
-        # Convert the user's input to floating point numbers
-        num1 = float(num1)
-        num2 = float(num2)
-
-        # Perform the operation based on the user's choice
+        # Call the appropriate function based on the user's choice
         if choice == "1":
             result = add(num1, num2)
         elif choice == "2":
@@ -78,16 +77,19 @@ def calculator():
         elif choice == "4":
             result = divide(num1, num2)
 
-            # Check if there was a division by zero error
+            # Print an error message if division by zero occurs
             if isinstance(result, str):
                 print(result)
                 continue
 
-        # Display the result to the user with different formatting options
-        print(f"Result: {format_float(result, 1)}")
-        print(f"Result: {format_float(result, 2)}")
-        print(f"Result: {format_float(result, 3)}")
-        print(f"Result: {format_float(result, 4)}")
+        # Try different formatting for the floating point numbers
+        print(f"Result: {result:.2f}") # 2 numbers after the decimal
 
-# Call the calculator function to start the program
+        # Ask the user if they want to continue or exit the program
+        choice = input("Do you want to perform another calculation? (y/n): ")
+        if choice.lower() not in ["y", "yes"]:
+            break
+
+
+# Main program
 calculator()
